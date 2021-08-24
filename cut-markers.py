@@ -46,7 +46,10 @@ rawJson = search.group(1)
 
 data = json.loads("{" + rawJson + "}")
 
-markers = data["engagementPanels"][0]["engagementPanelSectionListRenderer"]["content"]["macroMarkersListRenderer"]["contents"]
+for d in data["engagementPanels"]:
+    if d["engagementPanelSectionListRenderer"]["targetId"] == "engagement-panel-macro-markers-description-chapters":
+        markers = d["engagementPanelSectionListRenderer"]["content"]["macroMarkersListRenderer"]["contents"]
+
 for i in range(0, len(markers)):
     marker = markers[i]["macroMarkersListItemRenderer"]
     if i + 1 != len(markers):
