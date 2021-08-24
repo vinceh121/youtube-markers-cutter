@@ -22,7 +22,7 @@ cli = argparse.ArgumentParser(description = "cut-markers.py")
 cli.add_argument("-u", "--youtube-url", type = str, help = "the URL of the Youtube video")
 cli.add_argument("-v", "--video", type = str, help = "the path to the video file")
 cli.add_argument("-d", "--download", type = bool, help = "download the video using youtube-dl on the PATH")
-cli.add_argument("-f", "--output-format", type = str, help "the output format (the file extension)")
+cli.add_argument("-f", "--output-format", type = str, help = "the output format (the file extension)")
 
 args = cli.parse_args()
 if args.youtube_url == None:
