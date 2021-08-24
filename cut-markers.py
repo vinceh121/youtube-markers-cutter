@@ -41,13 +41,15 @@ rawJson = search.group(1)
 
 data = json.loads("{" + rawJson + "}")
 
-prevTime = "00:00:00"
-
-for markerParent in data["engagementPanels"][0]["engagementPanelSectionListRenderer"]["content"]["macroMarkersListRenderer"]["contents"]:
-    marker = markerParent["macroMarkersListItemRenderer"]
-    toTime = parseTime(marker["timeDescription"]["simpleText"])
-    if toTime == "00:00:00":
-        continue
+markers = data["engagementPanels"][0]["engagementPanelSectionListRenderer"]["content"]["macroMarkersListRenderer"]["contents"]
+for i in range(0, len(markers)):
+    marker = markers[i]["macroMarkersListItemRenderer"]
+    if i + 1 != len(markers):
+        nextMarker = markers[i + 1]["macroMarkersListItemRenderer"]
+        nextTime = parseTime(nextMarker["timeDescription"]["simpleText"])
+    else:
+        nextTime = "60:59:59"
+    startTime = parseTime(marker["timeDescription"]["simpleText"])
     title = marker["title"]["simpleText"]
     fileOut = re.sub(r"[^a-zA-Z0-9]", "_", title) + ".mp3"
     print("#" + title + " --> " + fileOut)
@@ -57,12 +59,11 @@ for markerParent in data["engagementPanels"][0]["engagementPanelSectionListRende
     args.append("-i")
     args.append(videoName)
     args.append("-ss")
-    args.append(prevTime)
+    args.append(startTime)
     args.append("-to")
-    args.append(toTime)
+    args.append(nextTime)
     args.append(fileOut)
     print(cmd, args)
-    prevTime = toTime
     for i in range(0, len(args)):
         args[i] = "\"" + args[i] + "\""
     os.system(" ".join(args))
