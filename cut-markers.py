@@ -30,8 +30,8 @@ if args.youtube_url == None:
 	exit()
 
 outFormat = "mp4"
-if args.youtube_url:
-    outFormat = args.youtube_url
+if args.output_format:
+    outFormat = args.output_format
 
 videoName = args.video
 
