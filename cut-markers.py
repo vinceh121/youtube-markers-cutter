@@ -22,11 +22,16 @@ cli = argparse.ArgumentParser(description = "cut-markers.py")
 cli.add_argument("-u", "--youtube-url", type = str, help = "the URL of the Youtube video")
 cli.add_argument("-v", "--video", type = str, help = "the path to the video file")
 cli.add_argument("-d", "--download", type = bool, help = "download the video using youtube-dl on the PATH")
+cli.add_argument("-f", "--output-format", type = str, help "the output format (the file extension)")
 
 args = cli.parse_args()
 if args.youtube_url == None:
 	print("Missing Youtube URL")
 	exit()
+
+outFormat = "mp4"
+if args.youtube_url:
+    outFormat = args.youtube_url
 
 videoName = args.video
 
@@ -51,7 +56,7 @@ for i in range(0, len(markers)):
         nextTime = "60:59:59"
     startTime = parseTime(marker["timeDescription"]["simpleText"])
     title = marker["title"]["simpleText"]
-    fileOut = re.sub(r"[^a-zA-Z0-9]", "_", title) + ".mp3"
+    fileOut = re.sub(r"[^a-zA-Z0-9]", "_", title) + "." + outFormat
     print("#" + title + " --> " + fileOut)
     cmd = "ffmpeg"
     args = []
